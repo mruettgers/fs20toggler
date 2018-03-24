@@ -1,6 +1,6 @@
 const Cul = require('cul');
 
-// FS40 Wandschalter:
+// FS20 Wandschalter:
 // 1112 | 1114
 //   01 |   03
 // -----------
