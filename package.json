@@ -1,0 +1,15 @@
+{
+  "name": "fs20toggler",
+  "version": "1.0.0",
+  "description": "Toggle daemon for FS20",
+  "main": "index.js",
+  "dependencies": {
+    "cul": "^0.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Rüttgers <michael@ruettgers.eu>",
+  "license": "ISC"
+}

@@ -1,0 +1,19 @@
+version: '3'
+services:
+  fs20toggler:
+    image: node
+    restart: always
+    volumes:
+      - ./:/src/
+      - /dev/ttyACM0:/dev/ttyACM0
+    privileged: true
+    working_dir: /src
+    command: node index.js 
+    networks:
+      home:
+        ipv4_address: 192.168.64.209
+
+networks:
+  home:
+    external:
+      name: home
