@@ -5,6 +5,7 @@ services:
     restart: always
     volumes:
       - ./:/src/
+    devices:
       - /dev/ttyACM0:/dev/ttyACM0
     privileged: true
     working_dir: /src
