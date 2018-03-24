@@ -42,7 +42,7 @@ const send = (device, cmd, repeats = 3) => {
   console.log(`Sending command '${cmd}' to device '${device}'...`);
   fs20.cmd('FS20', houseCode, device, cmd);
   if (repeats > 0) {
-    setTimeout(() => send(device, cmd, --repeats), 200);
+    setTimeout(() => send(device, cmd, --repeats), 500);
   }
 }
  
