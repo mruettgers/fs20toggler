@@ -75,5 +75,11 @@ fs20.on('data', (raw, obj) => {
     case 'toggle': send(mapping.target, mapping.state ? CMD_OFF : CMD_ON);
                    mapping.state = !mapping.state;
                    break;
+    case 'off':    send(mapping.target, CMD_OFF);
+                   mapping.state = false;
+                   break;
+    case 'on':     send(mapping.target, CMD_ON);
+                   mapping.state = true;
+                   break;
   }
 });
