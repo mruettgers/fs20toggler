@@ -82,21 +82,21 @@ fs20.on('data', (raw, obj) => {
     return;
 
   // addressCodeElv: '4231 3423'
-  // addressDeviceElv: '1112',
+  // addressDeviceElv: '1112',  
   const { addressCode, addressDevice, cmd } = data;
 
   if (addressCode !== houseCode)
     return;
 
-  command(addressDevice, cmd);
+  command(addressDevice, cmd); 
 });
 
 const mqttClient  = mqtt.connect('mqtt://' + mqttBroker)
-
+ 
 mqttClient.on('connect', function () {
   mqttClient.subscribe('home/fs20/cmd/+');
 })
-
+ 
 mqttClient.on('message', function (topic, message) {
   if (matches = topic.match(/^home\/fs20\/cmd\/([0-9]+)$/)) {
     const addressDevice = matches[1];
