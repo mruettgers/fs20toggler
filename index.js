@@ -1,4 +1,6 @@
 const Cul = require('cul');
+const mqtt = require('mqtt')
+
 
 // FS20 Wandschalter:
 // 1112 | 1114
@@ -9,6 +11,7 @@ const Cul = require('cul');
 
 const debug = process.env.DEBUG || false;
 const houseCode = 'D8B6'; //'4231 3423'
+const mqttBroker = '192.168.64.216';
 const fs20 = new Cul({
   serialport: '/dev/ttyACM0',
   mode: 'SlowRF'
@@ -45,25 +48,8 @@ const send = (device, cmd, repeats = 3) => {
     setTimeout(() => send(device, cmd, --repeats), 500);
   }
 }
- 
-fs20.on('data', (raw, obj) => {
-  if (debug)
-    console.log(obj);
 
-  if (!obj)
-    return;
-
-  const { data } = obj;
-  if (!data)
-    return;
-
-  // addressCodeElv: '4231 3423'
-  // addressDeviceElv: '1112',  
-  const { addressCode, addressDevice, cmd } = data;
-
-  if (addressCode !== houseCode)
-    return;
- 
+const command = (addressDevice, cmd) => {
   if (!map[addressDevice])
     return; 
 
@@ -82,4 +68,38 @@ fs20.on('data', (raw, obj) => {
                    mapping.state = true;
                    break;
   }
+}
+
+fs20.on('data', (raw, obj) => {
+  if (debug)
+    console.log(obj);
+
+  if (!obj)
+    return;
+
+  const { data } = obj;
+  if (!data)
+    return;
+
+  // addressCodeElv: '4231 3423'
+  // addressDeviceElv: '1112',
+  const { addressCode, addressDevice, cmd } = data;
+
+  if (addressCode !== houseCode)
+    return;
+
+  command(addressDevice, cmd);
 });
+
+const mqttClient  = mqtt.connect('mqtt://' + mqttBroker)
+
+mqttClient.on('connect', function () {
+  mqttClient.subscribe('home/fs20/cmd/+');
+})
+
+mqttClient.on('message', function (topic, message) {
+  if (matches = topic.match(/^home\/fs20\/cmd\/([0-9]+)$/)) {
+    const addressDevice = matches[1];
+    command(addressDevice, message.toString());
+  }
+})

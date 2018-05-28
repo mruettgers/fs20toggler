@@ -4,7 +4,8 @@
   "description": "Toggle daemon for FS20",
   "main": "index.js",
   "dependencies": {
-    "cul": "^0.8.1"
+    "cul": "^0.8.1",
+    "mqtt": "^2.18.0"
   },
   "devDependencies": {},
   "scripts": {
