@@ -1,7 +1,7 @@
-version: '3'
+version: '2'
 services:
   fs20toggler:
-    image: node
+    image: arm32v7/node
     restart: always
     volumes:
       - ./:/src/
